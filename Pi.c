@@ -1,25 +1,31 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 
 int main(void) {
-    int n;
-    double pi_approx = 0.0;
-    double dx, x;
+    long long n;         // Number of rectangles (the more, the more accurate)
+    double width;        // Width of each rectangle (Δx)
+    double x;            // Current x position
+    double sum = 0.0;    // Accumulator for undersum
+    double pi;           // Resulting approximation of π
 
-    printf("Anzahl der Intervalle (n): ");
-    scanf("%d", &n);
+    // Ask the user for the number of intervals
+    printf("Enter number of intervals (e.g. 1000000): ");
+    scanf("%lld", &n);
 
-    dx = 1.0 / n;
+    // Compute the width of each rectangle
+    width = 1.0 / n;
 
-    // Untersumme: x_i = i * dx (linke Riemann-Summe)
-    for (int i = 0; i < n; i++) {
-        x = i * dx;
-        pi_approx += 4.0 / (1.0 + x * x);
+    // Left Riemann sum (undersum)
+    for (long long i = 0; i < n; i++) {
+        x = i * width;                   // left edge of rectangle
+        sum += 1.0 / (1.0 + x * x);      // height of rectangle f(x)
     }
 
-    pi_approx *= dx;
+    // Multiply by 4 and Δx to approximate π
+    pi = 4.0 * width * sum;
 
-    printf("Ann�herung von Pi mit %d Intervallen: %.15f\n", n, pi_approx);
+    printf("\nApproximated value of PI = %.15f\n", pi);
+    printf("Actual value of PI ≈ 3.141592653589793\n");
+    printf("Error = %.15e\n", pi - 3.141592653589793);
 
     return 0;
 }
-
