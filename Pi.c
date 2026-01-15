@@ -1,31 +1,34 @@
-﻿#include <stdio.h>
+#include <iostream>
+#include <cmath>
+#include <iomanip>
 
-int main(void) {
-    long long n;         // Number of rectangles (the more, the more accurate)
-    double width;        // Width of each rectangle (Δx)
-    double x;            // Current x position
-    double sum = 0.0;    // Accumulator for undersum
-    double pi;           // Resulting approximation of π
+double approximatePiLowerSum(long long n)
+{
+    double dx = 1.0 / n;
+    double area = 0.0;
 
-    // Ask the user for the number of intervals
-    printf("Enter number of intervals (e.g. 1000000): ");
-    scanf("%lld", &n);
-
-    // Compute the width of each rectangle
-    width = 1.0 / n;
-
-    // Left Riemann sum (undersum)
-    for (long long i = 0; i < n; i++) {
-        x = i * width;                   // left edge of rectangle
-        sum += 1.0 / (1.0 + x * x);      // height of rectangle f(x)
+    for (long long i = 0; i < n; i++)
+    {
+        double x = i * dx;               // left endpoint
+        double y = std::sqrt(1 - x * x); // quarter circle
+        area += y * dx;
     }
 
-    // Multiply by 4 and Δx to approximate π
-    pi = 4.0 * width * sum;
+    return 4 * area; // quarter circle → full circle
+}
 
-    printf("\nApproximated value of PI = %.15f\n", pi);
-    printf("Actual value of PI ≈ 3.141592653589793\n");
-    printf("Error = %.15e\n", pi - 3.141592653589793);
+int main()
+{
+    long long n = 1000000; // number of rectangles
+
+    double piApprox = approximatePiLowerSum(n);
+
+    std::cout << std::setprecision(15);
+    std::cout << "Lower sum approximation of pi\n";
+    std::cout << "n = " << n << "\n\n";
+    std::cout << "Approximated pi: " << piApprox << "\n";
+    std::cout << "Actual pi:       " << M_PI << "\n";
+    std::cout << "Error:           " << M_PI - piApprox << "\n";
 
     return 0;
 }
