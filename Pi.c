@@ -10,16 +10,16 @@ double approximatePiLowerSum(long long n)
     for (long long i = 0; i < n; i++)
     {
         double x = i * dx;               // left endpoint
-        double y = std::sqrt(1 - x * x); // quarter circle
+        double y = std::sqrt(1 - x * x); // viertelkreis
         area += y * dx;
     }
 
-    return 4 * area; // quarter circle → full circle
+    return 4 * area; // auf vollen kreis umrechnen
 }
 
 int main()
 {
-    long long n = 1000000; // number of rectangles
+    long long n = 1000000; // Rechteckanzahl
 
     double piApprox = approximatePiLowerSum(n);
 
