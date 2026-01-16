@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    int n;              // number of rectangles
+    double dx;           // width of each rectangle
+    double x;            // x-coordinate (right endpoint)
+    double height;       // rectangle height
+    double area = 0.0;   // area of quarter circle
+    double pi;
+
+    printf("Enter number of rectangles: ");
+    scanf("%d", &n);
+
+    dx = 1.0 / n;
+
+    // Undersum using right endpoints
+    for (int i = 1; i <= n; i++) {
+        x = i * dx;
+
+        // Pythagorean theorem: x^2 + y^2 = 1
+        height = sqrt(1.0 - x * x);
+
+        area += height * dx;
+    }
+
+    pi = 4.0 * area;
+
+    printf("Approximation of pi: %.10f\n", pi);
+
+    return 0;
+}
